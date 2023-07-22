@@ -1,0 +1,3 @@
+/home/ricar/Documents/AdventOfCode/2022/day6/cmake-build-Release/CMakeFiles/source6.dir
+/home/ricar/Documents/AdventOfCode/2022/day6/cmake-build-Release/CMakeFiles/edit_cache.dir
+/home/ricar/Documents/AdventOfCode/2022/day6/cmake-build-Release/CMakeFiles/rebuild_cache.dir

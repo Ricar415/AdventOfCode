@@ -5,7 +5,6 @@
 
 using namespace std;
 
-// Check git ricar
 // The idea is to make a vector of vectors of strings. Each element of this vector represents a folder
 // if the string inside the vector is a number it is a file inside the folder
 // if the string starts with f it represents a subfolder, with the number after the f representing the index that folder is in in the fileSystem.
@@ -41,10 +40,16 @@ int main(){
         
         folder aux;
         aux.folderName = "/";
+        aux.rootFolder = 0;
         fileSystem.push_back(aux);
 
         while (getline(inputFile, ln)){
-            if(currentMode == 0 || ln.substr(0,1) == "$"){ currentMode = process_command(ln); }
+            if(currentMode == 0 || ln.substr(0,1) == "$"){ 
+                if(currentMode == 1){
+                    fileSystem[currentFile].folderChecked = true;
+                }
+                currentMode = process_command(ln); 
+            }
             else { process_output(ln); }
         }
         inputFile.close();
@@ -55,8 +60,9 @@ int main(){
 int process_command(string ln){
     if(ln.substr(0,4) == "$ cd"){
         if(ln.substr(5,1) == "/"){ currentFile = 0; return 0;}
-        if(ln.substr(5,2) == ".." && currentFile != 0){ currentFile = fileSystem[currentFile].rootFolder; return 0;}
+        if(ln.substr(5,2) == ".."){ currentFile = fileSystem[currentFile].rootFolder; return 0;}
         int folderN = find_folder(ln.substr(5,ln.length()-5));
+        if(folderN == -1){cout << ln.substr(5,ln.length()-5) << "\n";}
         if(folderN != -1){ currentFile = folderN; return 0;}
     }
     return -1;
@@ -80,7 +86,7 @@ void process_output(string ln){
 
 int find_folder(string name){
     for(int i = 0; i < fileSystem.size(); i++){
-        if(fileSystem[i].folderName == name){ return i; }
+        if(fileSystem[i].folderName == name && currentFile == fileSystem[i].rootFolder){ return i; }
     }
     return -1;
 }
@@ -94,11 +100,17 @@ void process_filetree(){
         if(fileSystem[i].rootFolder != -1){ fileSystem[fileSystem[i].rootFolder].size += fileSystem[i].size;}
     }
     for (int i = 0; i < fileSystem.size(); i++){
-        cout << fileSystem[i].folderName << "\n";
         if( fileSystem[i].size < 100000){
             count += fileSystem[i].size;
         }
 
+    }
+    for (int i = 0; i < fileSystem.size(); i++){
+        for (int  j = 0; j < fileSystem.size(); j++){
+            if(i != j && fileSystem[i].rootFolder == fileSystem[j].rootFolder && fileSystem[i].folderName == fileSystem[j].folderName){
+                cout << "FOUND DUPLICATE " << i << ":" << j << " " << fileSystem[i].folderName << "." << fileSystem[i].rootFolder << "\n";
+            }
+        }
     }
     cout << count;
 }

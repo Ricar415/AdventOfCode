@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// Check git ricar
 // The idea is to make a vector of vectors of strings. Each element of this vector represents a folder
 // if the string inside the vector is a number it is a file inside the folder
 // if the string starts with f it represents a subfolder, with the number after the f representing the index that folder is in in the fileSystem.

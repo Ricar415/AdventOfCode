@@ -86,7 +86,7 @@ void process_output(string ln){
 
 int find_folder(string name){
     for(int i = 0; i < fileSystem.size(); i++){
-        if(fileSystem[i].folderName == name && currentFile == fileSystem[i].rootFolder){ return i; }
+        if(fileSystem[i].folderName == name){ return i; }
     }
     return -1;
 }
@@ -104,13 +104,6 @@ void process_filetree(){
             count += fileSystem[i].size;
         }
 
-    }
-    for (int i = 0; i < fileSystem.size(); i++){
-        for (int  j = 0; j < fileSystem.size(); j++){
-            if(i != j && fileSystem[i].rootFolder == fileSystem[j].rootFolder && fileSystem[i].folderName == fileSystem[j].folderName){
-                cout << "FOUND DUPLICATE " << i << ":" << j << " " << fileSystem[i].folderName << "." << fileSystem[i].rootFolder << "\n";
-            }
-        }
     }
     cout << count;
 }
